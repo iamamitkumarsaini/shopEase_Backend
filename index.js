@@ -3,6 +3,7 @@ require("dotenv").config();
 const cors = require("cors");
 const { connection } = require("./config/db");
 const { userRoutes } = require("./Routes/userRoutes");
+const { authentication } = require("./middlewares/auth.middleware");
 
 
 
@@ -19,7 +20,12 @@ app.get("/", (req,res) => {
 });
 
 
-app.use("/user/", userRoutes)
+app.use("/user/", userRoutes);
+app.use(authentication);
+
+app.get("/products", (req,res) => {
+    res.status(200).send({"message":"Welcome to ShopEase.in Products Lists"});
+});
 
 
 app.listen(process.env.port, async(req,res) => {
